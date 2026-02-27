@@ -5,6 +5,60 @@ import plotly.graph_objects as go
 import pandas as pd
 from model import calculate_carbon, get_recommendations
 from transport_tracker import calculate_distance, calculate_transport_emission, EMISSION_FACTORS
+import requests
+import json
+
+# ─── FEATHERLESS AI ───────────────────────────────────────────────────────────
+def get_ai_recommendations(breakdown, total):
+    """Get AI-powered recommendations from Featherless AI"""
+    try:
+        api_key = st.secrets["FEATHERLESS_API_KEY"]
+        
+        top_category = max(breakdown, key=breakdown.get)
+        
+        prompt = f"""You are a carbon footprint expert for India. A user has the following annual carbon emissions:
+
+Total: {total} kg CO2/year
+Transport: {breakdown.get('🚗 Transport', 0)} kg
+Energy: {breakdown.get('⚡ Energy', 0)} kg
+Food: {breakdown.get('🍽️ Food', 0)} kg
+Water: {breakdown.get('💧 Water', 0)} kg
+Shopping: {breakdown.get('🛍️ Shopping', 0)} kg
+Waste: {breakdown.get('🗑️ Waste', 0)} kg
+
+India average: 1800 kg/year. Global average: 4000 kg/year.
+Their highest emission category is: {top_category}
+
+Give exactly 5 specific, actionable recommendations for an Indian user to reduce their carbon footprint.
+Focus on the highest emission category first.
+Each recommendation should be practical, India-specific, and include estimated CO2 savings.
+Format each as a single line starting with an emoji."""
+
+        response = requests.post(
+            "https://api.featherless.ai/v1/chat/completions",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json"
+            },
+            json={
+                "model": "meta-llama/Llama-3.3-70B-Instruct",
+                "messages": [{"role": "user", "content": prompt}],
+                "max_tokens": 500,
+                "temperature": 0.7
+            },
+            timeout=15
+        )
+        
+        if response.status_code == 200:
+            result = response.json()
+            ai_text = result["choices"][0]["message"]["content"]
+            lines = [line.strip() for line in ai_text.strip().split("\n") if line.strip()]
+            return lines, True
+        else:
+            return get_recommendations(breakdown, total), False
+            
+    except Exception as e:
+        return get_recommendations(breakdown, total), False
 
 # ─── PAGE CONFIG ──────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Carbon Lens Tracker", page_icon="🌍", layout="wide")
@@ -305,18 +359,23 @@ tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
 with tab1:
     st.markdown("<h3>🚗 Transport Tracker</h3>", unsafe_allow_html=True)
 
-    st.markdown("""
-    <div style='background: #00e5ff11; border: 1px solid #00e5ff33; border-radius: 12px; padding: 16px; margin-bottom: 20px;'>
-        <p style='color: #00e5ff; font-family: Orbitron, sans-serif; font-size: 13px; margin: 0;'>📍 AUTO DISTANCE CALCULATOR</p>
-        <p style='color: #80cfd8; font-size: 13px; margin: 5px 0 0 0;'>Type any two locations in India — we calculate the distance automatically using OpenStreetMap!</p>
-    </div>
-    """, unsafe_allow_html=True)
+
+
+    # Use session state to persist text input values
+    if "from_location" not in st.session_state:
+        st.session_state.from_location = ""
+    if "to_location" not in st.session_state:
+        st.session_state.to_location = ""
+    if "transport_emission" not in st.session_state:
+        st.session_state.transport_emission = 0
+    if "calculated_distance" not in st.session_state:
+        st.session_state.calculated_distance = 0
 
     col1, col2 = st.columns(2)
     with col1:
-        from_location = st.text_input("📍 From Location", placeholder="e.g. Coimbatore Railway Station")
+        from_location = st.text_input("📍 From Location", placeholder="e.g. Coimbatore Railway Station", key="from_loc")
     with col2:
-        to_location = st.text_input("📍 To Location", placeholder="e.g. Karunya University")
+        to_location = st.text_input("📍 To Location", placeholder="e.g. Karunya University", key="to_loc")
 
     col1, col2 = st.columns(2)
     with col1:
@@ -324,12 +383,12 @@ with tab1:
     with col2:
         trips_per_day = st.slider("Daily trips (one way)", 1, 10, 2)
 
-    if "transport_emission" not in st.session_state:
-        st.session_state.transport_emission = 0
-    if "calculated_distance" not in st.session_state:
-        st.session_state.calculated_distance = 0
-
     if st.button("📍 Calculate Distance & Emission"):
+        from_val = st.session_state.get("from_loc", "")
+        to_val = st.session_state.get("to_loc", "")
+        if from_val and to_val:
+            from_location = from_val
+            to_location = to_val
         if from_location and to_location:
             with st.spinner("🗺️ Finding locations on OpenStreetMap..."):
                 distance, error = calculate_distance(from_location, to_location)
@@ -614,8 +673,26 @@ if calculate:
 
     # ─── RECOMMENDATIONS ──────────────────────────────────────────────────────
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("<p style='font-family: Orbitron, sans-serif; color: #00e5ff; font-size: 16px; letter-spacing: 2px;'>💡 PERSONALIZED RECOMMENDATIONS</p>", unsafe_allow_html=True)
-    recommendations = get_recommendations(breakdown, total)
+    st.markdown("<p style='font-family: Orbitron, sans-serif; color: #00e5ff; font-size: 16px; letter-spacing: 2px;'>💡 AI-POWERED RECOMMENDATIONS</p>", unsafe_allow_html=True)
+    
+    # Featherless AI badge
+    st.markdown("""
+    <div style='background: linear-gradient(90deg, #ffaa0022, #00e5ff22); border: 1px solid #ffaa0044;
+    border-radius: 8px; padding: 8px 16px; display: inline-block; margin-bottom: 10px;'>
+        <span style='color: #ffaa00; font-size: 12px; font-family: Orbitron, sans-serif;'>
+        ⚡ POWERED BY FEATHERLESS AI — Llama 3.3 70B
+        </span>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    with st.spinner("🤖 Getting AI-powered recommendations from Featherless AI..."):
+        recommendations, is_ai = get_ai_recommendations(breakdown, total)
+    
+    if is_ai:
+        st.success("✅ AI recommendations generated successfully!")
+    else:
+        st.info("ℹ️ Showing smart recommendations")
+    
     for rec in recommendations:
         st.success(rec)
 
