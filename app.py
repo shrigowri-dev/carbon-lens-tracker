@@ -135,6 +135,39 @@ TEXT = {
         "footer1": "🌍 CARBON LENS TRACKER",
         "footer2": "Built for AURELION 2026 Smart Cities Hackathon",
         "above": "above", "below": "below",
+        "flights": T["flights"],
+        "domestic_flights": T["domestic_flights"],
+        "domestic_hrs": T["domestic_hrs"],
+        "intl_flights": T["intl_flights"],
+        "intl_hrs": T["intl_hrs"],
+        "electricity": T["electricity"],
+        "lpg": T["lpg"],
+        "png": T["png"],
+        "generator": T["generator"],
+        "beef": T["beef"],
+        "chicken": T["chicken"],
+        "fish": T["fish"],
+        "eggs": T["eggs"],
+        "veg": T["veg"],
+        "dairy": T["dairy"],
+        "food_waste": T["food_waste"],
+        "water": T["water"],
+        "shower": T["shower"],
+        "washing": T["washing"],
+        "clothing": T["clothing"],
+        "electronics": T["electronics"],
+        "online": T["online"],
+        "landfill": T["landfill"],
+        "recycled": T["recycled"],
+        "composting": T["composting"],
+        "source": "Source: World Bank, Global Carbon Project",
+        "powered_by": "⚡ POWERED BY",
+        "featherless_badge": T["featherless_badge"],
+        "ai_proof": T["ai_proof"],
+        "switch_transport": T["switch_transport"],
+        "install_solar": T["install_solar"],
+        "reduce_meat": T["reduce_meat"],
+        "co2_saved": T["co2_saved"],
     },
     "ta": {
         "page_title": "கார்பன் லென்ஸ் டிராக்கர்",
@@ -182,6 +215,39 @@ TEXT = {
         "footer1": "🌍 கார்பன் லென்ஸ் டிராக்கர்",
         "footer2": "AURELION 2026 ஸ்மார்ட் சிட்டீஸ் ஹேக்கத்தானுக்காக உருவாக்கப்பட்டது",
         "above": "மேலே", "below": "கீழே",
+        "flights": "✈️ விமான பயணங்கள் (கைமுறை)",
+        "domestic_flights": "✈️ உள்நாட்டு விமானங்கள் (ஆண்டுக்கு)",
+        "domestic_hrs": "⏱️ சராசரி மணிநேரம் (உள்நாட்டு)",
+        "intl_flights": "🌍 சர்வதேச விமானங்கள் (ஆண்டுக்கு)",
+        "intl_hrs": "⏱️ சராசரி மணிநேரம் (சர்வதேச)",
+        "electricity": "⚡ மாதாந்திர மின்சாரம் (kWh)",
+        "lpg": "🔥 LPG சிலிண்டர்கள் (மாதம்)",
+        "png": "🔥 குழாய் வாயு (SCM/மாதம்)",
+        "generator": "⛽ ஜெனரேட்டர் டீசல் (லிட்டர்/மாதம்)",
+        "beef": "🐄 மாட்டிறைச்சி உணவுகள் (வாரம்)",
+        "chicken": "🍗 கோழி உணவுகள் (வாரம்)",
+        "fish": "🐟 மீன் உணவுகள் (வாரம்)",
+        "eggs": "🥚 முட்டைகள் (நாள்)",
+        "veg": "🥗 சைவ உணவுகள் (வாரம்)",
+        "dairy": "🥛 பால் பொருட்கள் (லிட்டர்/வாரம்)",
+        "food_waste": "🗑️ உணவு கழிவு (கிலோ/வாரம்)",
+        "water": "💧 தினசரி நீர் பயன்பாடு (லிட்டர்)",
+        "shower": "🚿 சூடான குளியல் (நிமிடங்கள்/நாள்)",
+        "washing": "👕 வாஷிங் மெஷின் (சுழற்சி/வாரம்)",
+        "clothing": "👗 ஆடைகள் (மாதம்)",
+        "electronics": "📱 மின்னணு சாதனங்கள் (ஆண்டு)",
+        "online": "📦 ஆன்லைன் ஆர்டர்கள் (வாரம்)",
+        "landfill": "🗑️ கழிவு தொட்டி (கிலோ/வாரம்)",
+        "recycled": "♻️ மறுசுழற்சி (கிலோ/வாரம்)",
+        "composting": "🌱 உரமாக்கல் (கிலோ/வாரம்)",
+        "source": "ஆதாரம்: உலக வங்கி, உலகளாவிய கார்பன் திட்டம்",
+        "powered_by": "⚡ இயக்கப்படுகிறது",
+        "featherless_badge": "⚡ FEATHERLESS AI — Llama 3.3 70B மூலம் இயக்கப்படுகிறது",
+        "ai_proof": "📊 FEATHERLESS AI க்கு அனுப்பப்பட்ட தரவு:",
+        "switch_transport": "போக்குவரத்து மாற்றுங்கள்",
+        "install_solar": "சோலார் பேனல் பொருத்துங்கள்",
+        "reduce_meat": "இறைச்சி குறையுங்கள்",
+        "co2_saved": "ஆண்டுக்கு CO₂ சேமிப்பு",
     }
 }
 
@@ -503,10 +569,10 @@ with st.sidebar:
     st.metric(T["india_avg"], T["india_metric"])
     st.metric(T["global_avg"], T["global_metric"])
     st.metric(T["paris"], T["paris_metric"])
-    st.markdown("<p style='color: #80cfd850; font-size: 11px;'>Source: World Bank, Global Carbon Project</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='color: #80cfd850; font-size: 11px;'>{T['source']}</p>", unsafe_allow_html=True)
 
     st.markdown("---")
-    st.markdown("<p style='color: #00ff88; font-family: Orbitron, sans-serif; font-size: 13px;'>⚡ POWERED BY</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='color: #00ff88; font-family: Orbitron, sans-serif; font-size: 13px;'>{T['powered_by']}</p>", unsafe_allow_html=True)
     st.markdown("""
     <div style='font-size: 12px; color: #80cfd8; line-height: 2;'>
         🐍 Python + Streamlit<br>
@@ -580,7 +646,7 @@ with tab1:
         st.info(f"✅ Saved: **{st.session_state.transport_emission} kg CO₂/year** for **{st.session_state.calculated_distance} km** route using **{vehicle_type}**")
 
     st.markdown("---")
-    st.markdown("<p style='color: #80cfd8; font-family: Orbitron, sans-serif; font-size: 12px;'>✈️ FLIGHTS (MANUAL)</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='color: #80cfd8; font-family: Orbitron, sans-serif; font-size: 12px;'>{T['flights']}</p>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
         domestic_flights = st.number_input("Domestic flights per year", 0, 50, 0)
@@ -599,8 +665,8 @@ with tab2:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        electricity_kwh = st.slider("⚡ Monthly electricity (kWh)", 0, 1000, 0)
-        lpg_cylinders = st.slider("🔥 LPG cylinders per month", 0, 10, 0)
+        electricity_kwh = st.slider(T["electricity"], 0, 1000, 0)
+        lpg_cylinders = st.slider(T["lpg"], 0, 10, 0)
     with col2:
         png_scm = st.slider("🏭 Piped gas per month (SCM)", 0, 50, 0)
         generator_ltrs = st.slider("⛽ Generator diesel per month (L)", 0, 50, 0)
@@ -615,14 +681,14 @@ with tab3:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        beef_mutton_meals = st.slider("🐄 Beef/Mutton meals per week", 0, 21, 0)
-        chicken_meals = st.slider("🍗 Chicken meals per week", 0, 21, 0)
-        fish_meals = st.slider("🐟 Fish meals per week", 0, 21, 0)
-        eggs_per_day = st.slider("🥚 Eggs per day", 0, 10, 0)
+        beef_mutton_meals = st.slider(T["beef"], 0, 21, 0)
+        chicken_meals = st.slider(T["chicken"], 0, 21, 0)
+        fish_meals = st.slider(T["fish"], 0, 21, 0)
+        eggs_per_day = st.slider(T["eggs"], 0, 10, 0)
     with col2:
-        veg_meals = st.slider("🥗 Vegetarian meals per week", 0, 21, 0)
-        dairy_litres = st.slider("🥛 Dairy per week (litres)", 0, 10, 0)
-        food_waste_kg = st.slider("🗑️ Food wasted per week (kg)", 0, 10, 0)
+        veg_meals = st.slider(T["veg"], 0, 21, 0)
+        dairy_litres = st.slider(T["dairy"], 0, 10, 0)
+        food_waste_kg = st.slider(T["food_waste"], 0, 10, 0)
 
 # ─── WATER TAB ────────────────────────────────────────────────────────────────
 with tab4:
@@ -634,10 +700,10 @@ with tab4:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        water_litres = st.slider("💧 Daily water usage (litres)", 0, 500, 0)
-        shower_mins = st.slider("🚿 Daily hot shower (minutes)", 0, 60, 0)
+        water_litres = st.slider(T["water"], 0, 500, 0)
+        shower_mins = st.slider(T["shower"], 0, 60, 0)
     with col2:
-        washing_cycles = st.slider("👕 Washing machine cycles/week", 0, 14, 0)
+        washing_cycles = st.slider(T["washing"], 0, 14, 0)
 
 # ─── SHOPPING TAB ─────────────────────────────────────────────────────────────
 with tab5:
@@ -649,10 +715,10 @@ with tab5:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        clothing_items = st.slider("👗 Clothing items per month", 0, 20, 0)
-        electronics_items = st.number_input("📱 Electronics per year", 0, 20, 0)
+        clothing_items = st.slider(T["clothing"], 0, 20, 0)
+        electronics_items = st.number_input(T["electronics"], 0, 20, 0)
     with col2:
-        online_orders = st.slider("📦 Online orders per week", 0, 30, 0)
+        online_orders = st.slider(T["online"], 0, 30, 0)
 
 # ─── WASTE TAB ────────────────────────────────────────────────────────────────
 with tab6:
@@ -664,10 +730,10 @@ with tab6:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        landfill_kg = st.slider("🗑️ Waste to landfill/week (kg)", 0, 20, 0)
-        recycled_kg = st.slider("♻️ Waste recycled/week (kg)", 0, 20, 0)
+        landfill_kg = st.slider(T["landfill"], 0, 20, 0)
+        recycled_kg = st.slider(T["recycled"], 0, 20, 0)
     with col2:
-        composting_kg = st.slider("🌱 Waste composted/week (kg)", 0, 10, 0)
+        composting_kg = st.slider(T["composting"], 0, 10, 0)
 
 # ─── CALCULATE BUTTON ─────────────────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
@@ -921,10 +987,10 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
     energy_saving = round(breakdown.get("⚡ Energy", 0) * 0.50)        # 50% saving by solar
     food_saving = round(breakdown.get("🍽️ Food", 0) * 0.40)           # 40% saving by reducing meat
 
-    s1 = ("SWITCH TRANSPORT", "போக்குவரத்து மாற்றுங்கள்")
-    s2 = ("INSTALL SOLAR", "சோலார் பேனல் பொருத்துங்கள்")
-    s3 = ("REDUCE MEAT", "இறைச்சி குறையுங்கள்")
-    s4 = ("CO₂ saved per year", "ஆண்டுக்கு CO₂ சேமிப்பு")
+    s1 = (T["switch_transport"], "போக்குவரத்து மாற்றுங்கள்")
+    s2 = (T["install_solar"], "சோலார் பேனல் பொருத்துங்கள்")
+    s3 = (T["reduce_meat"], "இறைச்சி குறையுங்கள்")
+    s4 = (T["co2_saved"], "ஆண்டுக்கு CO₂ சேமிப்பு")
     lang_now = st.session_state.get("lang", "en")
     idx = 1 if lang_now == "ta" else 0
 
