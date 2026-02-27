@@ -373,8 +373,8 @@ with tab2:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        electricity_kwh = st.slider("⚡ Monthly electricity (kWh)", 0, 1000, 100)
-        lpg_cylinders = st.slider("🔥 LPG cylinders per month", 0, 10, 1)
+        electricity_kwh = st.slider("⚡ Monthly electricity (kWh)", 0, 1000, 0)
+        lpg_cylinders = st.slider("🔥 LPG cylinders per month", 0, 10, 0)
     with col2:
         png_scm = st.slider("🏭 Piped gas per month (SCM)", 0, 50, 0)
         generator_ltrs = st.slider("⛽ Generator diesel per month (L)", 0, 50, 0)
@@ -389,14 +389,14 @@ with tab3:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        beef_mutton_meals = st.slider("🐄 Beef/Mutton meals per week", 0, 21, 2)
-        chicken_meals = st.slider("🍗 Chicken meals per week", 0, 21, 3)
-        fish_meals = st.slider("🐟 Fish meals per week", 0, 21, 2)
-        eggs_per_day = st.slider("🥚 Eggs per day", 0, 10, 1)
+        beef_mutton_meals = st.slider("🐄 Beef/Mutton meals per week", 0, 21, 0)
+        chicken_meals = st.slider("🍗 Chicken meals per week", 0, 21, 0)
+        fish_meals = st.slider("🐟 Fish meals per week", 0, 21, 0)
+        eggs_per_day = st.slider("🥚 Eggs per day", 0, 10, 0)
     with col2:
-        veg_meals = st.slider("🥗 Vegetarian meals per week", 0, 21, 10)
-        dairy_litres = st.slider("🥛 Dairy per week (litres)", 0, 10, 2)
-        food_waste_kg = st.slider("🗑️ Food wasted per week (kg)", 0, 10, 1)
+        veg_meals = st.slider("🥗 Vegetarian meals per week", 0, 21, 0)
+        dairy_litres = st.slider("🥛 Dairy per week (litres)", 0, 10, 0)
+        food_waste_kg = st.slider("🗑️ Food wasted per week (kg)", 0, 10, 0)
 
 # ─── WATER TAB ────────────────────────────────────────────────────────────────
 with tab4:
@@ -408,10 +408,10 @@ with tab4:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        water_litres = st.slider("💧 Daily water usage (litres)", 0, 500, 100)
-        shower_mins = st.slider("🚿 Daily hot shower (minutes)", 0, 60, 10)
+        water_litres = st.slider("💧 Daily water usage (litres)", 0, 500, 0)
+        shower_mins = st.slider("🚿 Daily hot shower (minutes)", 0, 60, 0)
     with col2:
-        washing_cycles = st.slider("👕 Washing machine cycles/week", 0, 14, 3)
+        washing_cycles = st.slider("👕 Washing machine cycles/week", 0, 14, 0)
 
 # ─── SHOPPING TAB ─────────────────────────────────────────────────────────────
 with tab5:
@@ -423,10 +423,10 @@ with tab5:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        clothing_items = st.slider("👗 Clothing items per month", 0, 20, 2)
-        electronics_items = st.number_input("📱 Electronics per year", 0, 20, 1)
+        clothing_items = st.slider("👗 Clothing items per month", 0, 20, 0)
+        electronics_items = st.number_input("📱 Electronics per year", 0, 20, 0)
     with col2:
-        online_orders = st.slider("📦 Online orders per week", 0, 30, 3)
+        online_orders = st.slider("📦 Online orders per week", 0, 30, 0)
 
 # ─── WASTE TAB ────────────────────────────────────────────────────────────────
 with tab6:
@@ -438,10 +438,10 @@ with tab6:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        landfill_kg = st.slider("🗑️ Waste to landfill/week (kg)", 0, 20, 5)
-        recycled_kg = st.slider("♻️ Waste recycled/week (kg)", 0, 20, 2)
+        landfill_kg = st.slider("🗑️ Waste to landfill/week (kg)", 0, 20, 0)
+        recycled_kg = st.slider("♻️ Waste recycled/week (kg)", 0, 20, 0)
     with col2:
-        composting_kg = st.slider("🌱 Waste composted/week (kg)", 0, 10, 1)
+        composting_kg = st.slider("🌱 Waste composted/week (kg)", 0, 10, 0)
 
 # ─── CALCULATE BUTTON ─────────────────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
@@ -453,9 +453,9 @@ with col2:
 if calculate:
     transport_override = st.session_state.transport_emission if st.session_state.transport_emission > 0 else None
 
+    # Pass car_km=0 always — transport handled separately to avoid double counting
     total, breakdown = calculate_carbon(
-        "Petrol", 0 if transport_override else 10,
-        0, 0, 0, 0,
+        "None", 0, 0, 0, 0, 0,
         domestic_flights, domestic_flight_hrs,
         international_flights, international_flight_hrs,
         electricity_kwh, lpg_cylinders, png_scm, generator_ltrs,
@@ -466,9 +466,12 @@ if calculate:
         landfill_kg, recycled_kg, composting_kg
     )
 
+    # Add transport only from auto-calculator — no double counting
     if transport_override:
-        total = total + transport_override
+        total = round(total + transport_override, 2)
         breakdown["🚗 Transport"] = transport_override
+    else:
+        breakdown["🚗 Transport"] = 0
 
     st.markdown("<br>", unsafe_allow_html=True)
 
