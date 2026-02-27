@@ -135,39 +135,47 @@ TEXT = {
         "footer1": "🌍 CARBON LENS TRACKER",
         "footer2": "Built for AURELION 2026 Smart Cities Hackathon",
         "above": "above", "below": "below",
-        "flights": T["flights"],
-        "domestic_flights": T["domestic_flights"],
-        "domestic_hrs": T["domestic_hrs"],
-        "intl_flights": T["intl_flights"],
-        "intl_hrs": T["intl_hrs"],
-        "electricity": T["electricity"],
-        "lpg": T["lpg"],
-        "png": T["png"],
-        "generator": T["generator"],
-        "beef": T["beef"],
-        "chicken": T["chicken"],
-        "fish": T["fish"],
-        "eggs": T["eggs"],
-        "veg": T["veg"],
-        "dairy": T["dairy"],
-        "food_waste": T["food_waste"],
-        "water": T["water"],
-        "shower": T["shower"],
-        "washing": T["washing"],
-        "clothing": T["clothing"],
-        "electronics": T["electronics"],
-        "online": T["online"],
-        "landfill": T["landfill"],
-        "recycled": T["recycled"],
-        "composting": T["composting"],
+        "flights": "✈️ FLIGHTS (MANUAL)",
+        "domestic_flights": "✈️ Domestic flights per year",
+        "domestic_hrs": "⏱️ Avg hours per domestic flight",
+        "intl_flights": "🌍 International flights per year",
+        "intl_hrs": "⏱️ Avg hours per international flight",
+        "electricity": "⚡ Monthly electricity (kWh)",
+        "lpg": "🔥 LPG cylinders per month",
+        "png": "🏭 Piped gas per month (SCM)",
+        "generator": "📋 Generator diesel per month (L)",
+        "beef": "🐄 Beef/Mutton meals per week",
+        "chicken": "🍗 Chicken meals per week",
+        "fish": "🐟 Fish meals per week",
+        "eggs": "🥚 Eggs per day",
+        "veg": "🥗 Vegetarian meals per week",
+        "dairy": "🥛 Dairy per week (litres)",
+        "food_waste": "🗑️ Food wasted per week (kg)",
+        "water": "💧 Daily water usage (litres)",
+        "shower": "🚿 Daily hot shower (minutes)",
+        "washing": "👕 Washing machine cycles/week",
+        "clothing": "👗 Clothing items per month",
+        "electronics": "📱 Electronics per year",
+        "online": "📦 Online orders per week",
+        "landfill": "🗑️ Waste to landfill/week (kg)",
+        "recycled": "♻️ Waste recycled/week (kg)",
+        "composting": "🌱 Waste composted/week (kg)",
         "source": "Source: World Bank, Global Carbon Project",
         "powered_by": "⚡ POWERED BY",
-        "featherless_badge": T["featherless_badge"],
-        "ai_proof": T["ai_proof"],
-        "switch_transport": T["switch_transport"],
-        "install_solar": T["install_solar"],
-        "reduce_meat": T["reduce_meat"],
-        "co2_saved": T["co2_saved"],
+        "featherless_badge": "⚡ POWERED BY FEATHERLESS AI — Llama 3.3 70B",
+        "ai_proof": "📊 ACTUAL EMISSION DATA SENT TO FEATHERLESS AI:",
+        "switch_transport": "SWITCH TRANSPORT",
+        "install_solar": "INSTALL SOLAR",
+        "reduce_meat": "REDUCE MEAT",
+        "co2_saved": "CO₂ saved per year",
+        "piped_gas": "🏭 Piped gas per month (SCM)",
+        "gen_diesel": "📋 Generator diesel per month (L)",
+        "hero_title_text": "🌍 CARBON LENS",
+        "track": "TRACK • ANALYZE • REDUCE",
+        "india_badge": "🇮🇳 India Average: 1,800 kg/year",
+        "global_badge": "🌍 Global Average: 4,000 kg/year",
+        "paris_badge": "🎯 Paris Target: 2,300 kg/year",
+        "footer_data": "Data Sources: EPA Emission Factors | World Bank | IPCC Guidelines | OpenStreetMap | Central Electricity Authority of India",
     },
     "ta": {
         "page_title": "கார்பன் லென்ஸ் டிராக்கர்",
@@ -248,6 +256,14 @@ TEXT = {
         "install_solar": "சோலார் பேனல் பொருத்துங்கள்",
         "reduce_meat": "இறைச்சி குறையுங்கள்",
         "co2_saved": "ஆண்டுக்கு CO₂ சேமிப்பு",
+        "piped_gas": "🏭 குழாய் வாயு மாதம் (SCM)",
+        "gen_diesel": "📋 ஜெனரேட்டர் டீசல் மாதம் (L)",
+        "hero_title_text": "🌍 கார்பன் லென்ஸ்",
+        "track": "கண்காணி • பகுப்பாய்வு • குறை",
+        "india_badge": "🇮🇳 இந்தியா சராசரி: 1,800 கி.கி/ஆண்டு",
+        "global_badge": "🌍 உலக சராசரி: 4,000 கி.கி/ஆண்டு",
+        "paris_badge": "🎯 பாரிஸ் இலக்கு: 2,300 கி.கி/ஆண்டு",
+        "footer_data": "தரவு ஆதாரங்கள்: EPA | உலக வங்கி | IPCC | OpenStreetMap | மத்திய மின் ஆணையம்",
     }
 }
 
@@ -522,9 +538,9 @@ st.markdown(f"""
         -webkit-text-fill-color: transparent;
         margin: 0;
         letter-spacing: 4px;
-    '>{T["hero_title"]}</h1>
+    '>{ T['hero_title_text'] }</h1>
     <p style='color: #80cfd8; font-size: 18px; margin: 10px 0 5px 0; font-family: Exo 2, sans-serif;'>
-        {T["hero_sub"]}
+        { T['hero_sub'] }
     </p>
     <p style='
         color: #00e5ff;
@@ -533,7 +549,7 @@ st.markdown(f"""
         text-transform: uppercase;
         font-family: Orbitron, sans-serif;
         margin: 0;
-    '>{T["hero_tag"]}</p>
+    '>{ T['track'] }</p>
     <div style='
         display: flex;
         justify-content: center;
@@ -541,9 +557,9 @@ st.markdown(f"""
         margin-top: 20px;
         flex-wrap: wrap;
     '>
-        <span style='background: #00ff8822; border: 1px solid #00ff8844; border-radius: 20px; padding: 6px 16px; color: #00ff88; font-size: 13px; font-family: Exo 2, sans-serif;'>{T["india_avg"]}</span>
-        <span style='background: #00e5ff22; border: 1px solid #00e5ff44; border-radius: 20px; padding: 6px 16px; color: #00e5ff; font-size: 13px; font-family: Exo 2, sans-serif;'>{T["global_avg"]}</span>
-        <span style='background: #ffaa0022; border: 1px solid #ffaa0044; border-radius: 20px; padding: 6px 16px; color: #ffaa00; font-size: 13px; font-family: Exo 2, sans-serif;'>{T["paris"]}</span>
+        <span style='background: #00ff8822; border: 1px solid #00ff8844; border-radius: 20px; padding: 6px 16px; color: #00ff88; font-size: 13px; font-family: Exo 2, sans-serif;'>{ T['india_badge'] }</span>
+        <span style='background: #00e5ff22; border: 1px solid #00e5ff44; border-radius: 20px; padding: 6px 16px; color: #00e5ff; font-size: 13px; font-family: Exo 2, sans-serif;'>{ T['global_badge'] }</span>
+        <span style='background: #ffaa0022; border: 1px solid #ffaa0044; border-radius: 20px; padding: 6px 16px; color: #ffaa00; font-size: 13px; font-family: Exo 2, sans-serif;'>{ T['paris_badge'] }</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
