@@ -1084,6 +1084,59 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
         with col4:
             st.metric("🌳 Trees to Offset", f"{int(company_total/22):,}")
 
+        # ESG Pie Chart
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("<p style='font-family: Orbitron, sans-serif; color: #00e5ff; font-size: 13px; letter-spacing: 2px;'>📊 ESG EMISSIONS BREAKDOWN</p>", unsafe_allow_html=True)
+
+        col1, col2 = st.columns(2)
+        with col1:
+            # Scope pie chart
+            esg_df = pd.DataFrame({
+                "Scope": ["Scope 1 — Direct", "Scope 2 — Electricity", "Scope 3 — Value Chain"],
+                "Emissions (kg)": [scope1, scope2, scope3]
+            })
+            fig_esg = px.pie(
+                esg_df, values="Emissions (kg)", names="Scope",
+                title="🏭 Scope 1, 2, 3 Breakdown",
+                color_discrete_sequence=["#ff4444", "#ffaa00", "#00e5ff"]
+            )
+            fig_esg.update_traces(
+                textposition="inside", textinfo="percent+label",
+                textfont=dict(color="white", size=12)
+            )
+            fig_esg.update_layout(
+                paper_bgcolor="#061a24",
+                plot_bgcolor="#061a24",
+                font=dict(color="#80cfd8"),
+                title_font=dict(color="#00e5ff", size=14),
+                legend=dict(font=dict(color="#80cfd8"))
+            )
+            st.plotly_chart(fig_esg, use_container_width=True)
+
+        with col2:
+            # Category pie chart
+            cat_df = pd.DataFrame({
+                "Category": list(breakdown.keys()),
+                "Emissions (kg)": [v * co_employees for v in breakdown.values()]
+            })
+            fig_cat = px.pie(
+                cat_df, values="Emissions (kg)", names="Category",
+                title="🏢 Company Emissions by Category",
+                color_discrete_sequence=["#00ff88", "#00e5ff", "#ffaa00", "#ff6b6b", "#a855f7", "#f97316"]
+            )
+            fig_cat.update_traces(
+                textposition="inside", textinfo="percent+label",
+                textfont=dict(color="white", size=12)
+            )
+            fig_cat.update_layout(
+                paper_bgcolor="#061a24",
+                plot_bgcolor="#061a24",
+                font=dict(color="#80cfd8"),
+                title_font=dict(color="#00e5ff", size=14),
+                legend=dict(font=dict(color="#80cfd8"))
+            )
+            st.plotly_chart(fig_cat, use_container_width=True)
+
         # Compliance badges
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown(f"""
