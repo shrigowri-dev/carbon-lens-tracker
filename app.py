@@ -7,6 +7,9 @@ from model import calculate_carbon, get_recommendations
 from transport_tracker import calculate_distance, calculate_transport_emission, EMISSION_FACTORS
 import requests
 import json
+from gtts import gTTS
+import io
+import base64
 
 # ─── FEATHERLESS AI ───────────────────────────────────────────────────────────
 def get_ai_recommendations(breakdown, total):
@@ -60,40 +63,56 @@ Format each as a single line starting with an emoji."""
     except Exception as e:
         return get_recommendations(breakdown, total), False
 
-# ─── ELEVENLABS VOICE ────────────────────────────────────────────────────────
-def generate_voice_summary(total, breakdown, status):
-    """Generate voice summary using ElevenLabs"""
+# ─── TAMIL TRANSLATIONS ──────────────────────────────────────────────────────
+TAMIL = {
+    "title": "கார்பன் லென்ஸ் டிராக்கர்",
+    "subtitle": "இந்தியாவிற்கான AI அடிப்படையிலான கார்பன் கால்சுவட்டு மதிப்பீட்டாளர்",
+    "calculate": "என் கார்பன் கால்சுவட்டை கணக்கிடு",
+    "transport": "போக்குவரத்து",
+    "energy": "ஆற்றல்",
+    "food": "உணவு",
+    "water": "நீர்",
+    "shopping": "கடை",
+    "waste": "கழிவு",
+    "your_footprint": "உங்கள் கார்பன் அளவு",
+    "trees": "மரங்கள் நடவேண்டும்",
+    "hear_summary": "தமிழில் கேளுங்கள்",
+    "india_avg": "இந்தியா சராசரி",
+    "global_avg": "உலக சராசரி",
+    "paris": "பாரிஸ் இலக்கு",
+    "recommendations": "பரிந்துரைகள்",
+    "low": "நல்லது! இந்தியா சராசரிக்கு கீழே உள்ளீர்கள்!",
+    "medium": "பரவாயில்லை! பாரிஸ் ஒப்பந்த இலக்கில் உள்ளீர்கள்!",
+    "high": "கவலை! இந்தியா சராசரிக்கு மேலே உள்ளீர்கள்!",
+    "very_high": "அபாயம்! உலக சராசரிக்கு மேலே உள்ளீர்கள்!",
+}
+
+# ─── GTTS VOICE (FREE - NO API KEY) ─────────────────────────────────────────
+def generate_voice_summary(total, breakdown, lang="en"):
+    """Generate voice summary using gTTS — free, no API key needed"""
     try:
-        api_key = st.secrets["ELEVENLABS_API_KEY"]
         top_category = max(breakdown, key=breakdown.get)
         top_value = breakdown[top_category]
-        
-        text = f"""Your annual carbon footprint is {int(total)} kilograms of CO2 per year. 
-        {status}
-        Your highest emission source is {top_category.replace('🚗','').replace('⚡','').replace('🍽️','').replace('💧','').replace('🛍️','').replace('🗑️','')} at {int(top_value)} kilograms per year.
-        To offset your carbon footprint, you need to plant {int(total/22)} trees every year.
-        Check the personalized recommendations below to reduce your carbon footprint!"""
-        
-        response = requests.post(
-            "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM",
-            headers={
-                "xi-api-key": api_key,
-                "Content-Type": "application/json"
-            },
-            json={
-                "text": text,
-                "model_id": "eleven_monolingual_v1",
-                "voice_settings": {"stability": 0.5, "similarity_boost": 0.75}
-            },
-            timeout=20
-        )
-        
-        if response.status_code == 200:
-            return response.content, True
+        top_name = top_category.replace("🚗","").replace("⚡","").replace("🍽️","").replace("💧","").replace("🛍️","").replace("🗑️","").strip()
+
+        if lang == "ta":
+            text = f"""உங்கள் வருடாந்திர கார்பன் கால்சுவடு {int(total)} கிலோகிராம் CO2 ஆகும்.
+            உங்கள் மிக அதிக உமிழ்வு பிரிவு {top_name} ஆகும், இது {int(top_value)} கிலோகிராம்.
+            உங்கள் கார்பன் கால்சுவட்டை சமன் செய்ய ஆண்டுக்கு {int(total/22)} மரங்கள் நடவேண்டும்.
+            கீழே உள்ள பரிந்துரைகளை பின்பற்றுங்கள்!"""
         else:
-            return None, False
+            text = f"""Your annual carbon footprint is {int(total)} kilograms of CO2 per year.
+            Your highest emission source is {top_name} at {int(top_value)} kilograms per year.
+            To offset your footprint, you need to plant {int(total/22)} trees every year.
+            Check the recommendations below to reduce your carbon footprint!"""
+
+        tts = gTTS(text=text, lang=lang, slow=False)
+        audio_buffer = io.BytesIO()
+        tts.write_to_fp(audio_buffer)
+        audio_buffer.seek(0)
+        return audio_buffer.read(), True
     except Exception as e:
-        return None, False
+        return str(e), False
 
 # ─── PAGE CONFIG ──────────────────────────────────────────────────────────────
 st.set_page_config(page_title="Carbon Lens Tracker", page_icon="🌍", layout="wide")
@@ -331,7 +350,7 @@ st.markdown("""
         letter-spacing: 4px;
     '>🌍 CARBON LENS</h1>
     <p style='color: #80cfd8; font-size: 18px; margin: 10px 0 5px 0; font-family: Exo 2, sans-serif;'>
-        AI-Based Personal Carbon Footprint Estimator
+        AI-Based Personal Carbon Footprint Estimator | கார்பன் கால்சுவட்டு மதிப்பீட்டாளர்
     </p>
     <p style='
         color: #00e5ff;
@@ -366,6 +385,10 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
+    st.markdown("---")
+    st.markdown("<p style='color: #00ff88; font-family: Orbitron, sans-serif; font-size: 13px;'>🌐 LANGUAGE / மொழி</p>", unsafe_allow_html=True)
+    lang = st.radio("", ["🇬🇧 English", "🇮🇳 தமிழ்"], horizontal=True, label_visibility="collapsed")
+    st.session_state.lang = "ta" if "தமிழ்" in lang else "en"
     st.markdown("---")
     st.markdown("<p style='color: #00ff88; font-family: Orbitron, sans-serif; font-size: 13px;'>📊 BENCHMARKS</p>", unsafe_allow_html=True)
     st.metric("🇮🇳 India Average", "1,800 kg/year")
@@ -567,6 +590,16 @@ if calculate:
     else:
         breakdown["🚗 Transport"] = 0
 
+    # Save results in session state so voice button works
+    st.session_state.results_total = total
+    st.session_state.results_breakdown = breakdown
+    st.session_state.results_ready = True
+
+# Show results if calculated
+if "results_ready" in st.session_state and st.session_state.results_ready:
+    total = st.session_state.results_total
+    breakdown = st.session_state.results_breakdown
+
     st.markdown("<br>", unsafe_allow_html=True)
 
     # ─── RESULT BANNER ────────────────────────────────────────────────────────
@@ -614,14 +647,17 @@ if calculate:
     st.markdown("<br>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        if st.button("🔊 HEAR YOUR CARBON SUMMARY", use_container_width=True):
-            with st.spinner("🎙️ Generating voice summary using ElevenLabs..."):
-                audio_data, success = generate_voice_summary(total, breakdown, status_text)
+        voice_lang = st.session_state.get("lang", "en")
+        btn_label = "🔊 தமிழில் கேளுங்கள்" if voice_lang == "ta" else "🔊 HEAR YOUR CARBON SUMMARY"
+        if st.button(btn_label, use_container_width=True):
+            spinner_msg = "🎙️ தமிழில் குரல் உருவாக்குகிறது..." if voice_lang == "ta" else "🎙️ Generating voice summary..."
+            with st.spinner(spinner_msg):
+                audio_data, success = generate_voice_summary(total, breakdown, voice_lang)
             if success and audio_data:
                 st.audio(audio_data, format="audio/mpeg")
-                st.success("✅ Voice summary generated by ElevenLabs AI!")
+                st.success("✅ குரல் வெற்றிகரமாக உருவாக்கப்பட்டது!" if voice_lang == "ta" else "✅ Voice summary generated!")
             else:
-                st.warning("⚠️ Voice generation failed. Please try again.")
+                st.error(f"❌ Error: {audio_data}")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
