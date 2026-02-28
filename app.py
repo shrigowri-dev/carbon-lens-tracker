@@ -170,7 +170,7 @@ TEXT = {
         "co2_saved": "CO₂ saved per year",
         "piped_gas": "🏭 Piped gas per month (SCM)",
         "gen_diesel": "📋 Generator diesel per month (L)",
-        "electricity_info": T['electricity_info'],
+        "electricity_info": "💡 India's electricity grid emits 0.82 kg CO₂ per unit (kWh) — one of the highest in the world due to coal dependency.",
         "hero_title_text": "🌍 CARBON LENS",
         "track": "TRACK • ANALYZE • REDUCE",
         "india_badge": "🇮🇳 India Average: 1,800 kg/year",
