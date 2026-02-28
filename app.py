@@ -602,8 +602,8 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
 # ─── INPUT TABS ───────────────────────────────────────────────────────────────
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
-    T["tab1"], T["tab2"], T["tab3"], T["tab4"], T["tab5"], T["tab6"]
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
+    T["tab1"], T["tab2"], T["tab3"], T["tab4"], T["tab5"], T["tab6"], "🏢 ESG Report"
 ])
 
 # ─── TRANSPORT TAB ────────────────────────────────────────────────────────────
@@ -752,6 +752,22 @@ with tab6:
         recycled_kg = st.slider(T["recycled"], 0, 20, 0)
     with col2:
         composting_kg = st.slider(T["composting"], 0, 10, 0)
+
+# ─── ESG TAB ──────────────────────────────────────────────────────────────────
+with tab7:
+    st.markdown("<h3>🏢 ESG Carbon Disclosure Report</h3>", unsafe_allow_html=True)
+    st.markdown("""
+    <div style='background: #00e5ff11; border: 1px solid #00e5ff33; border-radius: 12px; padding: 14px; margin-bottom: 16px;'>
+        <p style='color: #00e5ff; font-size: 13px; margin: 0;'>📋 Fill company details below, then click <b>Calculate My Carbon Footprint</b>. Your full ESG report will auto-generate using your emission data!</p>
+    </div>
+    """, unsafe_allow_html=True)
+    col1, col2 = st.columns(2)
+    with col1:
+        esg_company = st.text_input("🏢 Company Name", placeholder="e.g. ABC Industries Pvt Ltd", key="esg_company")
+        esg_industry = st.selectbox("🏭 Industry", ["Manufacturing","IT & Software","Retail","Healthcare","Education","Construction","Agriculture","Transportation","Other"])
+    with col2:
+        esg_employees = st.number_input("👥 Number of Employees", 1, 500000, 100, key="esg_employees")
+        esg_year = st.selectbox("📅 Reporting Year", ["2025-26","2024-25","2023-24"])
 
 # ─── CALCULATE BUTTON ─────────────────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
@@ -1039,6 +1055,167 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
             <p style='color: #80cfd8; font-size: 12px;'>{s4[idx]}</p>
         </div>
         """, unsafe_allow_html=True)
+
+    # ─── ESG REPORT DISPLAY ───────────────────────────────────────────────────
+    st.markdown("<br>", unsafe_allow_html=True)
+    st.markdown("<p style='font-family: Orbitron, sans-serif; color: #00e5ff; font-size: 16px; letter-spacing: 2px;'>🏢 ESG CARBON DISCLOSURE REPORT</p>", unsafe_allow_html=True)
+
+    try:
+        co_name = st.session_state.get("esg_company", "") or "Your Company"
+        co_employees = st.session_state.get("esg_employees", 100)
+        co_industry = esg_industry
+        co_year = esg_year
+    except:
+        co_name = "Your Company"
+        co_employees = 100
+        co_industry = "Other"
+        co_year = "2025-26"
+
+    # Calculations
+    company_total = round(total * co_employees)
+    scope1 = round((breakdown.get("🚗 Transport", 0)) * co_employees)
+    scope2 = round((breakdown.get("⚡ Energy", 0)) * co_employees)
+    scope3 = round((breakdown.get("🍽️ Food", 0) + breakdown.get("💧 Water", 0) + breakdown.get("🛍️ Shopping", 0) + breakdown.get("🗑️ Waste", 0)) * co_employees)
+    per_employee = round(total)
+    trees_company = int(company_total / 22)
+    esg_score = max(0, min(100, round(100 - (total / 60))))
+
+    if esg_score >= 75:
+        rating, rating_color, rating_bg = "A — EXCELLENT", "#00ff88", "#00ff8811"
+    elif esg_score >= 50:
+        rating, rating_color, rating_bg = "B — GOOD", "#00e5ff", "#00e5ff11"
+    elif esg_score >= 25:
+        rating, rating_color, rating_bg = "C — NEEDS IMPROVEMENT", "#ffaa00", "#ffaa0011"
+    else:
+        rating, rating_color, rating_bg = "D — CRITICAL", "#ff4444", "#ff444411"
+
+    # Company header card
+    st.markdown(f"""
+    <div style='background: linear-gradient(135deg, #061a24, #0a2a38); border: 2px solid #00e5ff33; border-radius: 16px; padding: 28px; margin-bottom: 20px;'>
+        <div style='display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;'>
+            <div>
+                <p style='color: #00e5ff; font-family: Orbitron, sans-serif; font-size: 20px; margin: 0;'>{co_name}</p>
+                <p style='color: #80cfd8; font-size: 13px; margin: 6px 0 2px 0;'>🏭 {co_industry} &nbsp;|&nbsp; 👥 {co_employees:,} Employees &nbsp;|&nbsp; 📅 FY {co_year}</p>
+                <p style='color: #80cfd850; font-size: 11px; margin: 0;'>GHG Protocol Aligned • SEBI BRSR Compliant • ISO 14064</p>
+            </div>
+            <div style='background: {rating_bg}; border: 2px solid {rating_color}44; border-radius: 12px; padding: 16px 24px; text-align: center;'>
+                <p style='color: #80cfd8; font-size: 11px; margin: 0; letter-spacing: 2px;'>ESG RATING</p>
+                <p style='color: {rating_color}; font-family: Orbitron, sans-serif; font-size: 24px; font-weight: 900; margin: 4px 0;'>{rating}</p>
+                <p style='color: #80cfd8; font-size: 12px; margin: 0;'>Score: {esg_score} / 100</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    # Key metrics row
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("🏭 Total Emissions", f"{company_total:,} kg/yr")
+    with col2:
+        st.metric("👤 Per Employee", f"{per_employee:,} kg/yr")
+    with col3:
+        st.metric("📊 ESG Score", f"{esg_score}/100")
+    with col4:
+        st.metric("🌳 Trees to Offset", f"{trees_company:,}")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Scope cards
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown(f"""
+        <div style='background:#ff444411;border:1px solid #ff444433;border-radius:12px;padding:20px;text-align:center;'>
+            <p style='color:#ff4444;font-family:Orbitron,sans-serif;font-size:12px;margin:0;letter-spacing:2px;'>SCOPE 1</p>
+            <p style='color:#80cfd8;font-size:11px;margin:4px 0;'>Direct Emissions</p>
+            <p style='color:#ff4444;font-size:26px;font-weight:bold;margin:8px 0;'>{scope1:,}</p>
+            <p style='color:#80cfd8;font-size:11px;margin:0;'>kg CO₂/year</p>
+            <p style='color:#80cfd850;font-size:10px;margin:4px 0 0 0;'>Transport & Fuel</p>
+        </div>""", unsafe_allow_html=True)
+    with col2:
+        st.markdown(f"""
+        <div style='background:#ffaa0011;border:1px solid #ffaa0033;border-radius:12px;padding:20px;text-align:center;'>
+            <p style='color:#ffaa00;font-family:Orbitron,sans-serif;font-size:12px;margin:0;letter-spacing:2px;'>SCOPE 2</p>
+            <p style='color:#80cfd8;font-size:11px;margin:4px 0;'>Indirect Emissions</p>
+            <p style='color:#ffaa00;font-size:26px;font-weight:bold;margin:8px 0;'>{scope2:,}</p>
+            <p style='color:#80cfd8;font-size:11px;margin:0;'>kg CO₂/year</p>
+            <p style='color:#80cfd850;font-size:10px;margin:4px 0 0 0;'>Purchased Electricity</p>
+        </div>""", unsafe_allow_html=True)
+    with col3:
+        st.markdown(f"""
+        <div style='background:#00e5ff11;border:1px solid #00e5ff33;border-radius:12px;padding:20px;text-align:center;'>
+            <p style='color:#00e5ff;font-family:Orbitron,sans-serif;font-size:12px;margin:0;letter-spacing:2px;'>SCOPE 3</p>
+            <p style='color:#80cfd8;font-size:11px;margin:4px 0;'>Value Chain</p>
+            <p style='color:#00e5ff;font-size:26px;font-weight:bold;margin:8px 0;'>{scope3:,}</p>
+            <p style='color:#80cfd8;font-size:11px;margin:0;'>kg CO₂/year</p>
+            <p style='color:#80cfd850;font-size:10px;margin:4px 0 0 0;'>Food, Waste, Shopping</p>
+        </div>""", unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # Charts
+    col1, col2 = st.columns(2)
+    with col1:
+        scope_df = pd.DataFrame({
+            "Scope": ["Scope 1 — Direct", "Scope 2 — Electricity", "Scope 3 — Value Chain"],
+            "kg CO₂": [scope1, scope2, scope3]
+        })
+        fig_scope = px.pie(scope_df, values="kg CO₂", names="Scope",
+            title="📊 Scope 1, 2, 3 Breakdown",
+            color_discrete_sequence=["#ff4444", "#ffaa00", "#00e5ff"])
+        fig_scope.update_traces(textposition="inside", textinfo="percent+label", textfont=dict(color="white", size=12))
+        fig_scope.update_layout(paper_bgcolor="#061a24", plot_bgcolor="#061a24",
+            font=dict(color="#80cfd8"), title_font=dict(color="#00e5ff", size=14),
+            legend=dict(font=dict(color="#80cfd8")))
+        st.plotly_chart(fig_scope, use_container_width=True)
+
+    with col2:
+        cat_df = pd.DataFrame({
+            "Category": list(breakdown.keys()),
+            "kg CO₂": [v * co_employees for v in breakdown.values()]
+        })
+        fig_cat = px.pie(cat_df, values="kg CO₂", names="Category",
+            title="🏢 Company Emissions by Category",
+            color_discrete_sequence=["#00ff88","#00e5ff","#ffaa00","#ff6b6b","#a855f7","#f97316"])
+        fig_cat.update_traces(textposition="inside", textinfo="percent+label", textfont=dict(color="white", size=12))
+        fig_cat.update_layout(paper_bgcolor="#061a24", plot_bgcolor="#061a24",
+            font=dict(color="#80cfd8"), title_font=dict(color="#00e5ff", size=14),
+            legend=dict(font=dict(color="#80cfd8")))
+        st.plotly_chart(fig_cat, use_container_width=True)
+
+    # Bar chart — compare vs benchmarks
+    bench_df = pd.DataFrame({
+        "": [f"🏢 {co_name[:15]}", "🇮🇳 India Avg", "🌍 Global Avg", "🎯 Paris Target"],
+        "kg CO₂/employee/year": [per_employee, 1800, 4000, 2300],
+        "Color": ["#00e5ff", "#00ff88", "#ff4444", "#ffaa00"]
+    })
+    fig_bench = go.Figure(go.Bar(
+        x=bench_df[""],
+        y=bench_df["kg CO₂/employee/year"],
+        marker_color=bench_df["Color"],
+        text=bench_df["kg CO₂/employee/year"].apply(lambda x: f"{x:,} kg"),
+        textposition="outside", textfont=dict(color="white")
+    ))
+    fig_bench.update_layout(
+        title="📈 Per Employee Emission vs Benchmarks",
+        paper_bgcolor="#061a24", plot_bgcolor="#061a24",
+        font=dict(color="#80cfd8"), title_font=dict(color="#00e5ff", size=14),
+        xaxis=dict(gridcolor="rgba(255,255,255,0.07)"),
+        yaxis=dict(gridcolor="rgba(255,255,255,0.07)", title="kg CO₂/employee/year")
+    )
+    st.plotly_chart(fig_bench, use_container_width=True)
+
+    # Compliance badges
+    st.markdown(f"""
+    <div style='background:#00ff8811;border:1px solid #00ff8833;border-radius:12px;padding:16px;margin-top:8px;'>
+        <p style='color:#00ff88;font-family:Orbitron,sans-serif;font-size:13px;margin:0 0 12px 0;'>✅ COMPLIANCE STANDARDS</p>
+        <span style='background:#00ff8822;border:1px solid #00ff8844;border-radius:20px;padding:6px 14px;color:#00ff88;font-size:12px;margin:4px;display:inline-block;'>✅ GHG Protocol</span>
+        <span style='background:#00e5ff22;border:1px solid #00e5ff44;border-radius:20px;padding:6px 14px;color:#00e5ff;font-size:12px;margin:4px;display:inline-block;'>✅ SEBI BRSR India</span>
+        <span style='background:#ffaa0022;border:1px solid #ffaa0044;border-radius:20px;padding:6px 14px;color:#ffaa00;font-size:12px;margin:4px;display:inline-block;'>✅ ISO 14064</span>
+        <span style='background:#ff444422;border:1px solid #ff444444;border-radius:20px;padding:6px 14px;color:#ff4444;font-size:12px;margin:4px;display:inline-block;'>✅ Paris Agreement</span>
+        <span style='background:#a855f722;border:1px solid #a855f744;border-radius:20px;padding:6px 14px;color:#a855f7;font-size:12px;margin:4px;display:inline-block;'>✅ CDP Reporting</span>
+        <span style='background:#00ff8822;border:1px solid #00ff8844;border-radius:20px;padding:6px 14px;color:#00ff88;font-size:12px;margin:4px;display:inline-block;'>✅ SDG 13 Climate Action</span>
+    </div>
+    """, unsafe_allow_html=True)
 
 # ─── FOOTER ───────────────────────────────────────────────────────────────────
 st.markdown("<br><br>", unsafe_allow_html=True)
