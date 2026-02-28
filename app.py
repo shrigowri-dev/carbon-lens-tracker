@@ -177,6 +177,42 @@ TEXT = {
         "global_badge": "🌍 Global Average: 4,000 kg/year",
         "paris_badge": "🎯 Paris Target: 2,300 kg/year",
         "footer_data": "Data Sources: EPA Emission Factors | World Bank | IPCC Guidelines | OpenStreetMap | Central Electricity Authority of India",
+        "esg_tab": "🏢 ESG Report",
+        "esg_title": "🏢 ESG Carbon Disclosure Report",
+        "esg_info": "📋 Fill company details below, then click Calculate My Carbon Footprint. Your full ESG report will auto-generate using your emission data!",
+        "esg_company": "🏢 Company Name",
+        "esg_company_ph": "e.g. ABC Industries Pvt Ltd",
+        "esg_industry": "🏭 Industry",
+        "esg_employees": "👥 Number of Employees",
+        "esg_year": "📅 Reporting Year",
+        "esg_report_title": "🏢 ESG CARBON DISCLOSURE REPORT",
+        "esg_employees_label": "Employees",
+        "esg_aligned": "GHG Protocol Aligned • SEBI BRSR Compliant • ISO 14064",
+        "esg_rating_label": "ESG RATING",
+        "esg_score_label": "Score",
+        "esg_total": "🏭 Total Emissions",
+        "esg_per_emp": "👤 Per Employee",
+        "esg_score": "📊 ESG Score",
+        "esg_trees": "🌳 Trees to Offset",
+        "scope1_title": "SCOPE 1",
+        "scope1_sub": "Direct Emissions",
+        "scope1_src": "Transport & Fuel",
+        "scope2_title": "SCOPE 2",
+        "scope2_sub": "Indirect Emissions",
+        "scope2_src": "Purchased Electricity",
+        "scope3_title": "SCOPE 3",
+        "scope3_sub": "Value Chain",
+        "scope3_src": "Food, Waste, Shopping",
+        "esg_chart1": "📊 Scope 1, 2, 3 Breakdown",
+        "esg_chart2": "🏢 Company Emissions by Category",
+        "esg_chart3": "📈 Per Employee Emission vs Benchmarks",
+        "esg_compliance": "✅ COMPLIANCE STANDARDS",
+        "esg_rating_a": "A — EXCELLENT",
+        "esg_rating_b": "B — GOOD",
+        "esg_rating_c": "C — NEEDS IMPROVEMENT",
+        "esg_rating_d": "D — CRITICAL",
+        "kg_yr": "kg CO₂/year",
+        "per_emp_yr": "kg CO₂/employee/year",
     },
     "ta": {
         "page_title": "கார்பன் லென்ஸ் டிராக்கர்",
@@ -266,6 +302,42 @@ TEXT = {
         "global_badge": "🌍 உலக சராசரி: 4,000 கி.கி/ஆண்டு",
         "paris_badge": "🎯 பாரிஸ் இலக்கு: 2,300 கி.கி/ஆண்டு",
         "footer_data": "தரவு ஆதாரங்கள்: EPA | உலக வங்கி | IPCC | OpenStreetMap | மத்திய மின் ஆணையம்",
+        "esg_tab": "🏢 ESG அறிக்கை",
+        "esg_title": "🏢 ESG கார்பன் வெளிப்படுத்தல் அறிக்கை",
+        "esg_info": "📋 கீழே நிறுவன விவரங்களை நிரப்பி, என் கார்பன் கால்சுவட்டை கணக்கிடு என்பதை கிளிக் செய்யுங்கள். உங்கள் ESG அறிக்கை தானாக உருவாகும்!",
+        "esg_company": "🏢 நிறுவன பெயர்",
+        "esg_company_ph": "எ.கா. ABC தொழில்கள் பிரைவேட் லிமிடெட்",
+        "esg_industry": "🏭 தொழில் வகை",
+        "esg_employees": "👥 பணியாளர்கள் எண்ணிக்கை",
+        "esg_year": "📅 அறிக்கை ஆண்டு",
+        "esg_report_title": "🏢 ESG கார்பன் வெளிப்படுத்தல் அறிக்கை",
+        "esg_employees_label": "பணியாளர்கள்",
+        "esg_aligned": "GHG நெறிமுறை • SEBI BRSR இணக்கம் • ISO 14064",
+        "esg_rating_label": "ESG மதிப்பீடு",
+        "esg_score_label": "மதிப்பெண்",
+        "esg_total": "🏭 மொத்த உமிழ்வு",
+        "esg_per_emp": "👤 பணியாளர் ஒருவருக்கு",
+        "esg_score": "📊 ESG மதிப்பெண்",
+        "esg_trees": "🌳 நடவேண்டிய மரங்கள்",
+        "scope1_title": "நிலை 1",
+        "scope1_sub": "நேரடி உமிழ்வு",
+        "scope1_src": "போக்குவரத்து & எரிபொருள்",
+        "scope2_title": "நிலை 2",
+        "scope2_sub": "மறைமுக உமிழ்வு",
+        "scope2_src": "வாங்கிய மின்சாரம்",
+        "scope3_title": "நிலை 3",
+        "scope3_sub": "மதிப்பு சங்கிலி",
+        "scope3_src": "உணவு, கழிவு, கடை",
+        "esg_chart1": "📊 நிலை 1, 2, 3 பகுப்பு",
+        "esg_chart2": "🏢 நிறுவன உமிழ்வு வகைவாரியாக",
+        "esg_chart3": "📈 பணியாளர் உமிழ்வு vs அளவீடுகள்",
+        "esg_compliance": "✅ இணக்க தரநிலைகள்",
+        "esg_rating_a": "A — சிறந்தது",
+        "esg_rating_b": "B — நல்லது",
+        "esg_rating_c": "C — மேம்பாடு தேவை",
+        "esg_rating_d": "D — அபாயகரம்",
+        "kg_yr": "கி.கி CO₂/ஆண்டு",
+        "per_emp_yr": "கி.கி CO₂/பணியாளர்/ஆண்டு",
     }
 }
 
@@ -603,7 +675,7 @@ with st.sidebar:
 
 # ─── INPUT TABS ───────────────────────────────────────────────────────────────
 tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
-    T["tab1"], T["tab2"], T["tab3"], T["tab4"], T["tab5"], T["tab6"], "🏢 ESG Report"
+    T["tab1"], T["tab2"], T["tab3"], T["tab4"], T["tab5"], T["tab6"], T["esg_tab"]
 ])
 
 # ─── TRANSPORT TAB ────────────────────────────────────────────────────────────
@@ -755,7 +827,7 @@ with tab6:
 
 # ─── ESG TAB ──────────────────────────────────────────────────────────────────
 with tab7:
-    st.markdown("<h3>🏢 ESG Carbon Disclosure Report</h3>", unsafe_allow_html=True)
+    st.markdown(f"<h3>{T['esg_title']}</h3>", unsafe_allow_html=True)
     st.markdown("""
     <div style='background: #00e5ff11; border: 1px solid #00e5ff33; border-radius: 12px; padding: 14px; margin-bottom: 16px;'>
         <p style='color: #00e5ff; font-size: 13px; margin: 0;'>📋 Fill company details below, then click <b>Calculate My Carbon Footprint</b>. Your full ESG report will auto-generate using your emission data!</p>
@@ -763,11 +835,11 @@ with tab7:
     """, unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        esg_company = st.text_input("🏢 Company Name", placeholder="e.g. ABC Industries Pvt Ltd", key="esg_company")
-        esg_industry = st.selectbox("🏭 Industry", ["Manufacturing","IT & Software","Retail","Healthcare","Education","Construction","Agriculture","Transportation","Other"])
+        esg_company = st.text_input(T["esg_company"], placeholder=T["esg_company_ph"], key="esg_company")
+        esg_industry = st.selectbox(T["esg_industry"], ["Manufacturing","IT & Software","Retail","Healthcare","Education","Construction","Agriculture","Transportation","Other"])
     with col2:
-        esg_employees = st.number_input("👥 Number of Employees", 1, 500000, 100, key="esg_employees")
-        esg_year = st.selectbox("📅 Reporting Year", ["2025-26","2024-25","2023-24"])
+        esg_employees = st.number_input(T["esg_employees"], 1, 500000, 100, key="esg_employees")
+        esg_year = st.selectbox(T["esg_year"], ["2025-26","2024-25","2023-24"])
 
 # ─── CALCULATE BUTTON ─────────────────────────────────────────────────────────
 st.markdown("<br>", unsafe_allow_html=True)
@@ -1081,13 +1153,13 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
     esg_score = max(0, min(100, round(100 - (total / 60))))
 
     if esg_score >= 75:
-        rating, rating_color, rating_bg = "A — EXCELLENT", "#00ff88", "#00ff8811"
+        rating, rating_color, rating_bg = T["esg_rating_a"], "#00ff88", "#00ff8811"
     elif esg_score >= 50:
-        rating, rating_color, rating_bg = "B — GOOD", "#00e5ff", "#00e5ff11"
+        rating, rating_color, rating_bg = T["esg_rating_b"], "#00e5ff", "#00e5ff11"
     elif esg_score >= 25:
-        rating, rating_color, rating_bg = "C — NEEDS IMPROVEMENT", "#ffaa00", "#ffaa0011"
+        rating, rating_color, rating_bg = T["esg_rating_c"], "#ffaa00", "#ffaa0011"
     else:
-        rating, rating_color, rating_bg = "D — CRITICAL", "#ff4444", "#ff444411"
+        rating, rating_color, rating_bg = T["esg_rating_d"], "#ff4444", "#ff444411"
 
     # Company header card
     st.markdown(f"""
@@ -1095,7 +1167,7 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
         <div style='display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;'>
             <div>
                 <p style='color: #00e5ff; font-family: Orbitron, sans-serif; font-size: 20px; margin: 0;'>{co_name}</p>
-                <p style='color: #80cfd8; font-size: 13px; margin: 6px 0 2px 0;'>🏭 {co_industry} &nbsp;|&nbsp; 👥 {co_employees:,} Employees &nbsp;|&nbsp; 📅 FY {co_year}</p>
+                <p style='color: #80cfd8; font-size: 13px; margin: 6px 0 2px 0;'>🏭 {co_industry} &nbsp;|&nbsp; 👥 {co_employees:,} {T["esg_employees_label"]} &nbsp;|&nbsp; 📅 FY {co_year}</p>
                 <p style='color: #80cfd850; font-size: 11px; margin: 0;'>GHG Protocol Aligned • SEBI BRSR Compliant • ISO 14064</p>
             </div>
             <div style='background: {rating_bg}; border: 2px solid {rating_color}44; border-radius: 12px; padding: 16px 24px; text-align: center;'>
@@ -1110,13 +1182,13 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
     # Key metrics row
     col1, col2, col3, col4 = st.columns(4)
     with col1:
-        st.metric("🏭 Total Emissions", f"{company_total:,} kg/yr")
+        st.metric(T["esg_total"], f"{company_total:,} kg/yr")
     with col2:
-        st.metric("👤 Per Employee", f"{per_employee:,} kg/yr")
+        st.metric(T["esg_per_emp"], f"{per_employee:,} kg/yr")
     with col3:
-        st.metric("📊 ESG Score", f"{esg_score}/100")
+        st.metric(T["esg_score"], f"{esg_score}/100")
     with col4:
-        st.metric("🌳 Trees to Offset", f"{trees_company:,}")
+        st.metric(T["esg_trees"], f"{trees_company:,}")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
@@ -1160,7 +1232,7 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
             "kg CO₂": [scope1, scope2, scope3]
         })
         fig_scope = px.pie(scope_df, values="kg CO₂", names="Scope",
-            title="📊 Scope 1, 2, 3 Breakdown",
+            title=T["esg_chart1"],
             color_discrete_sequence=["#ff4444", "#ffaa00", "#00e5ff"])
         fig_scope.update_traces(textposition="inside", textinfo="percent+label", textfont=dict(color="white", size=12))
         fig_scope.update_layout(paper_bgcolor="#061a24", plot_bgcolor="#061a24",
@@ -1174,7 +1246,7 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
             "kg CO₂": [v * co_employees for v in breakdown.values()]
         })
         fig_cat = px.pie(cat_df, values="kg CO₂", names="Category",
-            title="🏢 Company Emissions by Category",
+            title=T["esg_chart2"],
             color_discrete_sequence=["#00ff88","#00e5ff","#ffaa00","#ff6b6b","#a855f7","#f97316"])
         fig_cat.update_traces(textposition="inside", textinfo="percent+label", textfont=dict(color="white", size=12))
         fig_cat.update_layout(paper_bgcolor="#061a24", plot_bgcolor="#061a24",
@@ -1185,22 +1257,22 @@ if "results_ready" in st.session_state and st.session_state.results_ready:
     # Bar chart — compare vs benchmarks
     bench_df = pd.DataFrame({
         "": [f"🏢 {co_name[:15]}", "🇮🇳 India Avg", "🌍 Global Avg", "🎯 Paris Target"],
-        "kg CO₂/employee/year": [per_employee, 1800, 4000, 2300],
+        T["per_emp_yr"]: [per_employee, 1800, 4000, 2300],
         "Color": ["#00e5ff", "#00ff88", "#ff4444", "#ffaa00"]
     })
     fig_bench = go.Figure(go.Bar(
         x=bench_df[""],
-        y=bench_df["kg CO₂/employee/year"],
+        y=bench_df[T["per_emp_yr"]],
         marker_color=bench_df["Color"],
-        text=bench_df["kg CO₂/employee/year"].apply(lambda x: f"{x:,} kg"),
+        text=bench_df[T["per_emp_yr"]].apply(lambda x: f"{x:,} kg"),
         textposition="outside", textfont=dict(color="white")
     ))
     fig_bench.update_layout(
-        title="📈 Per Employee Emission vs Benchmarks",
+        title=T["esg_chart3"],
         paper_bgcolor="#061a24", plot_bgcolor="#061a24",
         font=dict(color="#80cfd8"), title_font=dict(color="#00e5ff", size=14),
         xaxis=dict(gridcolor="rgba(255,255,255,0.07)"),
-        yaxis=dict(gridcolor="rgba(255,255,255,0.07)", title="kg CO₂/employee/year")
+        yaxis=dict(gridcolor="rgba(255,255,255,0.07)", title=T["per_emp_yr"])
     )
     st.plotly_chart(fig_bench, use_container_width=True)
 
