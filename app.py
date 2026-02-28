@@ -170,6 +170,7 @@ TEXT = {
         "co2_saved": "CO₂ saved per year",
         "piped_gas": "🏭 Piped gas per month (SCM)",
         "gen_diesel": "📋 Generator diesel per month (L)",
+        "electricity_info": T['electricity_info'],
         "hero_title_text": "🌍 CARBON LENS",
         "track": "TRACK • ANALYZE • REDUCE",
         "india_badge": "🇮🇳 India Average: 1,800 kg/year",
@@ -256,6 +257,7 @@ TEXT = {
         "install_solar": "சோலார் பேனல் பொருத்துங்கள்",
         "reduce_meat": "இறைச்சி குறையுங்கள்",
         "co2_saved": "ஆண்டுக்கு CO₂ சேமிப்பு",
+        "electricity_info": "💡 இந்தியாவின் மின் கட்டம் ஒரு யூனிட்டுக்கு 0.82 கி.கி CO₂ வெளியிடுகிறது — நிலக்கரி சார்பு காரணமாக உலகிலேயே அதிகமானது.",
         "piped_gas": "🏭 குழாய் வாயு மாதம் (SCM)",
         "gen_diesel": "📋 ஜெனரேட்டர் டீசல் மாதம் (L)",
         "hero_title_text": "🌍 கார்பன் லென்ஸ்",
@@ -665,11 +667,11 @@ with tab1:
     st.markdown(f"<p style='color: #80cfd8; font-family: Orbitron, sans-serif; font-size: 12px;'>{T['flights']}</p>", unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        domestic_flights = st.number_input("Domestic flights per year", 0, 50, 0)
-        domestic_flight_hrs = st.slider("Avg hours per domestic flight", 1, 5, 2)
+        domestic_flights = st.number_input(T["domestic_flights"], 0, 50, 0)
+        domestic_flight_hrs = st.slider(T["domestic_hrs"], 1, 5, 2)
     with col2:
-        international_flights = st.number_input("International flights per year", 0, 20, 0)
-        international_flight_hrs = st.slider("Avg hours per international flight", 1, 20, 8)
+        international_flights = st.number_input(T["intl_flights"], 0, 20, 0)
+        international_flight_hrs = st.slider(T["intl_hrs"], 1, 20, 8)
 
 # ─── ENERGY TAB ───────────────────────────────────────────────────────────────
 with tab2:
@@ -684,8 +686,8 @@ with tab2:
         electricity_kwh = st.slider(T["electricity"], 0, 1000, 0)
         lpg_cylinders = st.slider(T["lpg"], 0, 10, 0)
     with col2:
-        png_scm = st.slider("🏭 Piped gas per month (SCM)", 0, 50, 0)
-        generator_ltrs = st.slider("⛽ Generator diesel per month (L)", 0, 50, 0)
+        png_scm = st.slider(T["piped_gas"], 0, 50, 0)
+        generator_ltrs = st.slider(T["gen_diesel"], 0, 50, 0)
 
 # ─── FOOD TAB ─────────────────────────────────────────────────────────────────
 with tab3:
